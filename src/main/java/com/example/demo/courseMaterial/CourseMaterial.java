@@ -21,7 +21,7 @@ public class CourseMaterial {
             strategy = GenerationType.IDENTITY
     )
 	@Column(name = "id")
-    private Long courseMaterialId;
+    private Long id;
     private String url;
 
     @OneToOne(
@@ -31,16 +31,16 @@ public class CourseMaterial {
     )
     @JoinColumn(
             name = "course_id",
-            referencedColumnName = "courseId"
+            referencedColumnName = "id"
     )
     private Course course;
 
 	public Long getCourseMaterialId() {
-		return courseMaterialId;
+		return id;
 	}
 
-	public void setCourseMaterialId(Long courseMaterialId) {
-		this.courseMaterialId = courseMaterialId;
+	public void setCourseMaterialId(Long id) {
+		this.id = id;
 	}
 
 	public String getUrl() {
@@ -58,6 +58,13 @@ public class CourseMaterial {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
+
+	@Override
+	public String toString() {
+		return "CourseMaterial [courseMaterialId=" + id + ", url=" + url + ", course=" + course + "]";
+	}
+	
+	
     
     
 }

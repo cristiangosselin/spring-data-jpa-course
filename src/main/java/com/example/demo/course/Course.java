@@ -18,7 +18,7 @@ public class Course {
             strategy = GenerationType.IDENTITY
     )
 	@Column(name = "id")
-    private Long courseId;
+    private Long id;
     private String title;
     private Integer credit;
 
@@ -28,11 +28,11 @@ public class Course {
     private CourseMaterial courseMaterial;
 
 	public Long getCourseId() {
-		return courseId;
+		return id;
 	}
 
-	public void setCourseId(Long courseId) {
-		this.courseId = courseId;
+	public void setCourseId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -58,6 +58,13 @@ public class Course {
 	public void setCourseMaterial(CourseMaterial courseMaterial) {
 		this.courseMaterial = courseMaterial;
 	}
+
+	@Override
+	public String toString() {
+		return "Course [courseId=" + id + ", title=" + title + ", credit=" + credit + ", courseMaterial="
+				+ courseMaterial + "]";
+	}
     
+	
     
 }
