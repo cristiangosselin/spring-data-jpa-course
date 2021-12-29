@@ -29,6 +29,7 @@ public class CourseMaterial {
             fetch = FetchType.LAZY,
             optional = false
     )
+    //Commend here1
     @JoinColumn(
             name = "course_id",
             referencedColumnName = "id"
