@@ -10,7 +10,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+//Comment i wanna commit
     @Column(
             name = "first_name"
     )
