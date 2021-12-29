@@ -1,5 +1,6 @@
 package com.example.demo.course;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.demo.courseMaterial.CourseMaterial;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "course")
 @Table(name = "course")
@@ -22,16 +24,20 @@ public class Course {
     private String title;
     private Integer credit;
 
+    @JsonIgnore
     @OneToOne(
-            mappedBy = "course"
+            cascade = CascadeType.ALL,
+            mappedBy = "course",
+            optional = false
+
     )
     private CourseMaterial courseMaterial;
 
-	public Long getCourseId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setCourseId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -61,7 +67,7 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course [courseId=" + id + ", title=" + title + ", credit=" + credit + ", courseMaterial="
+		return "Course [id=" + id + ", title=" + title + ", credit=" + credit + ", courseMaterial="
 				+ courseMaterial + "]";
 	}
     
