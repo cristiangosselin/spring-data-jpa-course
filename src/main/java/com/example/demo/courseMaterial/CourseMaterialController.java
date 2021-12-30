@@ -20,10 +20,14 @@ import com.example.demo.course.CourseRepository;
 public class CourseMaterialController {
 	
 	private CourseMaterialRepository courseMaterialRepository;
+	private CourseRepository courseRepository;
+
 	
 	@Autowired
-	public CourseMaterialController(CourseMaterialRepository courseMaterialRepository) {
+	public CourseMaterialController(CourseMaterialRepository courseMaterialRepository, CourseRepository courseRepository) {
 		this.courseMaterialRepository = courseMaterialRepository;
+		this.courseRepository = courseRepository;
+
 	}
 	
 	@GetMapping(value = "/{id}")

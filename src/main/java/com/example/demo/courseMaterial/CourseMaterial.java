@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.demo.course.Course;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "course_material")
 @Table(name = "course_material")
@@ -24,12 +28,13 @@ public class CourseMaterial {
     private Long id;
     private String url;
 
+//    @JsonIgnore
+//    @JsonBackReference
+    @JsonManagedReference
     @OneToOne(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
             optional = false
     )
-    //Commend here1
     @JoinColumn(
             name = "course_id",
             referencedColumnName = "id"
