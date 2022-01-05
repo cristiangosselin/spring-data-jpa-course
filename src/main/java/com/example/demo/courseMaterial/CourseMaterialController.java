@@ -33,6 +33,7 @@ public class CourseMaterialController {
 	@GetMapping(value = "/{id}")
 	public CourseMaterial getCourseMaterialsById(@PathVariable Long id) {
 		Optional<CourseMaterial> foundCourseMaterial =  courseMaterialRepository.findById(id);
+		System.out.println("Course X: " + foundCourseMaterial.get().getCourse());
 		return foundCourseMaterial.get();
 	}
 	

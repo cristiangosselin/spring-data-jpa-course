@@ -1,5 +1,7 @@
 package com.example.demo.courseMaterial;
 
+import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.demo.course.Course;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "course_material")
@@ -30,11 +34,14 @@ public class CourseMaterial {
 
 //    @JsonIgnore
 //    @JsonBackReference
-    @JsonManagedReference
+//    @JsonManagedReference
+    @JsonIgnoreProperties({"courseMaterial"})
     @OneToOne(
+    		fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            optional = false
+            optional = true
     )
+//    @MapsId
     @JoinColumn(
             name = "course_id",
             referencedColumnName = "id"
@@ -69,6 +76,25 @@ public class CourseMaterial {
 	public String toString() {
 		return "CourseMaterial [courseMaterialId=" + id + ", url=" + url + ", course=" + course + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(course, id, url);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CourseMaterial other = (CourseMaterial) obj;
+		return Objects.equals(course, other.course) && Objects.equals(id, other.id) && Objects.equals(url, other.url);
+	}
+	
+	
 	
 	
     

@@ -1,6 +1,8 @@
 package com.example.demo.teacher;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import com.example.demo.course.Course;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "teacher")
 @Table(name = "teacher")
@@ -30,19 +33,14 @@ public class Teacher {
 	
     private String lastName;
 
-//	@LazyCollection(LazyCollectionOption.FALSE)
-//    @OneToMany(
-//            cascade = CascadeType.ALL,
-//            mappedBy = "teacherId"
-//    )
-    @OneToMany(
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(
-            name = "teacher_id",
-            referencedColumnName = "id"
-    )
-    private List<Course> courses;
+    @OneToMany(mappedBy = "teacherId", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"teacherId"})
+    private List<Course> courses = new ArrayList<>(); 
+    
+    
+	public Teacher() {
+	}
+
 
 	public Long getId() {
 		return id;
@@ -73,15 +71,19 @@ public class Teacher {
 	}
 
 	public void setCourses(List<Course> courses) {
-//		courses.forEach(item -> item.setTeacherId(this));
+		courses.forEach(item -> item.setTeacherId(this));
 		this.courses = courses;
 	}
+	
+    public void addComment(Course course) {
+        courses.add(course);
+        course.setTeacherId(this);
+    }
+ 
+    public void removeComment(Course course) {
+    	courses.remove(course);
+    	course.setTeacherId(null);
+    }
 
-	@Override
-	public String toString() {
-		return "Teacher [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", courses=" + courses
-				+ "]";
-	}
-    
     
 }

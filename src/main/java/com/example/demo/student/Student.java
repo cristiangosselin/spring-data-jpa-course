@@ -1,10 +1,22 @@
 package com.example.demo.student;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.*;
+
+import com.example.demo.course.Course;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity(name = "students")
-@Table(name = "students")
+@Table(
+		name = "students",
+		uniqueConstraints = {
+                @UniqueConstraint(name = "student_email_unique", columnNames = "email") //If there are more than one pass an array {})
+        }
+			)
 public class Student {
 
     @Id
@@ -15,13 +27,13 @@ public class Student {
     )
     private String firstName;
 
-    //Another one too
     @Column(
             name = "last_name"
     )
     private String lastName;
 
     @Column(
+    		unique = true,
             name = "email"
     )
     private String email;
@@ -30,6 +42,10 @@ public class Student {
             name = "age"
     )
     private Integer age;
+    
+    @JsonIgnoreProperties(value = {"students"})
+    @ManyToMany(mappedBy = "students", cascade = CascadeType.ALL)
+    private List<Course> courses = new ArrayList<>();
 
     public Student(String firstName,
                    String lastName,
@@ -85,7 +101,16 @@ public class Student {
         this.age = age;
     }
 
-    @Override
+    public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		courses.forEach(item -> item.addStudents(this));
+		this.courses = courses;
+	}
+
+	@Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
@@ -95,4 +120,25 @@ public class Student {
                 ", age=" + age +
                 '}';
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(age, email, firstName, id, lastName, courses);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Student)) {
+			return false;
+		}
+		Student other = (Student) obj;
+		return Objects.equals(age, other.age) && Objects.equals(email, other.email)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(courses, other.courses);
+	}
+    
+    
 }

@@ -32,29 +32,35 @@ public class CourseController {
 	@GetMapping(value = "/{id}")
 	public Course getStudentById(@PathVariable Long id) {
 		Optional<Course> foundCourse =  courseRepository.findById(id);
-//		System.out.println("CourseMaterial from Course X: " + foundCourse.get().getCourseMaterial());
+		System.out.println("CourseMaterial from Course X: " + foundCourse.get());
+		System.out.println("CourseMaterial X: " + foundCourse.get().getCourseMaterial());
+
 		return foundCourse.get();
 	}
 	
 	@GetMapping()
 	public List<Course> getStudents() {
 		List<Course> allCourses = courseRepository.findAll();
+		System.out.println("Course X: " + allCourses);
+
 		return allCourses;
 	}
 	
 	@PostMapping
-	public CourseMaterial saveStudent(@RequestBody Course course) {
+	public Course saveStudent(@RequestBody Course course) {
 		System.out.println("here");
 		System.out.println("Course X: " + course);
-		CourseMaterial courseMaterial = new CourseMaterial();
-		courseMaterial.setUrl(course.getCourseMaterial().getUrl());
-		Course newCourse = new Course();
-		newCourse.setTitle(course.getTitle());
-		newCourse.setCredit(course.getCredit());
-//		newCourse.setTeacherId(course.getTeacherId());
-		courseMaterial.setCourse(newCourse);
-		System.out.println("CourseMaterial X: " + courseMaterial);
-		CourseMaterial courseSaved = courseMaterialRepository.save(courseMaterial);
+		System.out.println("CourseMaterial X: " + course.getCourseMaterial());
+		
+//		courseMaterial.setUrl(course.getCourseMaterial().getUrl());
+//		Course newCourse = new Course();
+//		newCourse.setTitle(course.getTitle());
+//		newCourse.setCredit(course.getCredit());
+////		newCourse.setTeacherId(course.getTeacherId());
+//		courseMaterial.setCourse(newCourse);
+//		System.out.println("CourseMaterial X: " + courseMaterial);
+//		CourseMaterial courseSaved = courseMaterialRepository.save(courseMaterial);
+		Course courseSaved = courseRepository.save(course);
 		return courseSaved;
 	}
 	
